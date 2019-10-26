@@ -1,17 +1,57 @@
-const MinhaPromise = () =>
-  new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve("OK");
-    }, 200);
-  });
+import axios from "axios";
 
-MinhaPromise().then((response) => {
-  console.log(response);
-});
-
-async function executePromise() {
-  const response = await MinhaPromise();
-  console.log(response);
+class Api {
+  static async getUserInfo(username) {
+    const response = await axios.get(`https:api.github.com/users/${username}`);
+    console.log(response);
+  }
 }
 
-executePromise();
+Api.getUserInfo("Dadarkp3");
+
+// Funão delay aciona o .then após 1s
+const delay = () => new Promise((resolve) => setTimeout(resolve, 1000));
+const umPorSegundo = async () => {
+  await delay();
+  console.log("1s");
+  await delay();
+  console.log("2s");
+  await delay();
+  console.log("3s");
+};
+umPorSegundo();
+
+const getUserFromGithub = async (user) => {
+  try {
+    const response = await axios.get(`https://api.github.com/users/${user}`);
+    console.log(response.data);
+  } catch (err) {
+    console.warn("Usuário não existe");
+  }
+};
+getUserFromGithub("diego3g");
+getUserFromGithub("diego3g124123");
+
+class Github {
+  static async getRepositories(repo) {
+    try {
+      const response = await axios.get(`https://api.github.com/repos/${repo}`);
+      console.log(response.data);
+    } catch (err) {
+      console.warn(err);
+    }
+  }
+}
+
+Github.getRepositories("rocketseat/rocketseat.com.br");
+Github.getRepositories("rocketseat/dslkvmskv");
+
+const buscaUsuario = async (usuario) => {
+  try {
+    const response = await axios.get(`https://api.github.com/users/${user}`);
+    console.log(response.data);
+  } catch (err) {
+    console.log("Usuário não existe");
+  }
+};
+buscaUsuario("diego3g");
